@@ -81,7 +81,7 @@ client.start()
 The code below should be improved significantly:
 The GUI and the "algo" are mixed - refactoring using MVC design pattern is required.
 """
-
+counter = 0
 while client.is_running() == 'true':
     pokemons = json.loads(client.get_pokemons(),
                           object_hook=lambda d: SimpleNamespace(**d)).Pokemons
@@ -161,5 +161,7 @@ while client.is_running() == 'true':
             ttl = client.time_to_end()
             print(ttl, client.get_info())
 
+    print(counter)
+    counter = counter + 1
     client.move()
 # game over:
