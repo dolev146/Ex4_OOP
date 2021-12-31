@@ -10,6 +10,13 @@ from pygame import gfxdraw
 import pygame
 from pygame import *
 
+import time
+start = time.time()
+
+
+
+
+
 # init pygame
 WIDTH, HEIGHT = 1080, 720
 
@@ -150,7 +157,7 @@ while client.is_running() == 'true':
     display.update()
 
     # refresh rate
-    clock.tick(60)
+    clock.tick(10)
 
     # choose next edge
     for agent in agents:
@@ -160,6 +167,9 @@ while client.is_running() == 'true':
                 '{"agent_id":'+str(agent.id)+', "next_node_id":'+str(next_node)+'}')
             ttl = client.time_to_end()
             print(ttl, client.get_info())
+
+    # if ((time.time() - start) == 10.0):
+    print("Process time: " + str(time.time() - start))
 
     print(counter)
     counter = counter + 1
