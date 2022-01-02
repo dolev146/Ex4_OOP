@@ -92,5 +92,7 @@ class GameControl:
         """
         need to control when to move the agent with 1 conditions
         1. we cannot use the func move() more than 10 times per second
+        so
+        first check if a second passed than we can
         """
         pass
