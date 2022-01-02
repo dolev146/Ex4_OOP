@@ -5,7 +5,7 @@ class Pokemon:
         self.pos = pos
         self.edge = None
         self.src = None
-        self.dest
+        self.dest = None
 
     def __str__(self) -> str:
         return f""" pokemon(value= {self.value} , type= {self.type} , pos= {self.pos} \n"""
