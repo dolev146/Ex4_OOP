@@ -3,6 +3,7 @@
 OOP - Ex4
 Very simple GUI example for python client to communicates with the server and "play the game!"
 """
+from operator import attrgetter
 
 import settings
 from pygame import gfxdraw
@@ -29,7 +30,6 @@ class Gui:
         # pokemons = client.get_pokemons()
         # pokemons_obj = json.loads(pokemons, object_hook=lambda d: SimpleNamespace(**d))
 
-
         # pokemons_obj = json.loads(pokemons, object_hook=lambda d: SimpleNamespace(**d))
         # print(pokemons)
 
@@ -42,17 +42,16 @@ class Gui:
         # graph = json.loads(
         #     graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
 
-
-
         # for n in graph.Nodes:
         #     x, y, _ = n.pos.split(',')
         #     n.pos = SimpleNamespace(x=float(x), y=float(y))
 
         # get data_ex3 proportions
-        min_x = min(list(settings.graph.Nodes), key=lambda n: n.x).x
-        min_y = min(list(settings.graph.Nodes), key=lambda n: n.y).y
-        max_x = max(list(settings.graph.Nodes), key=lambda n: n.x).x
-        max_y = max(list(settings.graph.Nodes), key=lambda n: n.y).y
+        node_list = list(settings.graph.Nodes.values())
+        min_x = min(node_list, key=lambda node: node.x)
+        min_y = min(node_list, key=lambda node: node.y)
+        max_x = max(node_list, key=lambda node: node.x)
+        max_y = max(node_list, key=lambda node: node.y)
 
         def scale(data, min_screen, max_screen, min_data, max_data):
             """
@@ -71,14 +70,13 @@ class Gui:
 
         radius = 15
 
-#need to check how much agents i have
+        # need to check how much agents i have
         # client.add_agent("{\"id\":0}")
         # client.add_agent("{\"id\":1}")
         # client.add_agent("{\"id\":2}")
         # client.add_agent("{\"id\":3}")
 
         # this commnad starts the server - the game is running now
-
 
         """
         The code below should be improved significantly:
@@ -109,7 +107,7 @@ class Gui:
             screen.fill(Color(0, 0, 0))
 
             # draw nodes
-            for n in settings.graph.Nodes:
+            for n in settings.graph.Nodes.values():
                 x = my_scale(n.x, x=True)
                 y = my_scale(n.y, y=True)
                 # its just to get a nice antialiasing circle
@@ -123,15 +121,15 @@ class Gui:
                 screen.blit(id_srf, rect)
 
             # draw edges
-            for e in settings.graph.Edges:
+            for e in settings.graph.Edges.values():
                 # find the edge nodes
                 src = next(n for n in settings.graph.Nodes if n.id == e.src)
                 dest = next(n for n in settings.graph.Nodes if n.id == e.dest)
                 # scaled positions
-                src_x = my_scale(src.pos.x, x=True)
-                src_y = my_scale(src.pos.y, y=True)
-                dest_x = my_scale(dest.pos.x, x=True)
-                dest_y = my_scale(dest.pos.y, y=True)
+                src_x = my_scale(src.x, x=True)
+                src_y = my_scale(src.y, y=True)
+                dest_x = my_scale(dest.x, x=True)
+                dest_y = my_scale(dest.y, y=True)
                 # draw the line
                 pygame.draw.line(screen, Color(61, 72, 126),
                                  (src_x, src_y), (dest_x, dest_y))
@@ -140,7 +138,8 @@ class Gui:
             for agent in settings.agents:
                 pygame.draw.circle(screen, Color(122, 61, 23),
                                    (int(agent.pos.x), int(agent.pos.y)), 10)
-            # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons (currently they are marked in the same way).
+            # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons
+            # (currently they are marked in the same way).
             for p in settings.pokemons:
                 pygame.draw.circle(screen, Color(0, 255, 255), (int(p.pos.x), int(p.pos.y)), 10)
 
@@ -151,18 +150,19 @@ class Gui:
             clock.tick(60)
 
             # choose next edge
-            for agent in settings.agents:
-                if agent.dest == -1:
-                    next_node = (agent.src - 1) % len(settings.graph.Nodes)
-                    settings.client.choose_next_edge(
-                        '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_node) + '}')
-                    ttl = settings.client.time_to_end()
-                    print(ttl, settings.client.get_info())
+            # for agent in settings.agents:
+            #     if agent.dest == -1:
+            #         next_node = (agent.src - 1) % len(settings.graph.Nodes)
+            #         settings.client.choose_next_edge(
+            #             '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_node) + '}')
+            #         ttl = settings.client.time_to_end()
+            #         print(ttl, settings.client.get_info())
 
             # if ((time.time() - start) == 10.0):
             print("Process time: " + str(time.time() - start))
 
             print(counter)
             counter = counter + 1
-            settings.client.move()
+
+            # settings.client.move()
         # game over:
