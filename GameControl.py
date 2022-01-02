@@ -90,6 +90,7 @@ class GameControl:
 
     def control_agent(self):
         """
-        get the shortest path to the src of the pokimon and set that node to the pokimon , and
+        need to control when to move the agent with 1 conditions
+        1. we cannot use the func move() more than 10 times per second
         """
         pass
