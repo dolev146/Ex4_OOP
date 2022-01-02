@@ -13,6 +13,7 @@ from pygame import *
 
 import time
 
+from Classes.Agent import Agent
 from Classes.Pokemon import Pokemon
 
 
@@ -100,6 +101,20 @@ class Gui:
             #     x, y, _ = a.pos.split(',')
             #     a.pos = SimpleNamespace(x=my_scale(
             #         float(x), x=True), y=my_scale(float(y), y=True))
+            json_pokemons = settings.client.get_pokemons()
+            dict_pokemons = json.loads(json_pokemons)
+            for pok in dict_pokemons["Pokemons"]:
+                pok = pok["Pokemon"]
+                settings.pokemons.append(Pokemon(value=pok["value"], type=pok["type"], pos=pok["pos"]))
+
+            json_agents = settings.client.get_agents()
+            dict_agents = json.loads(json_agents)
+            for agent in dict_agents['Agents']:
+                agent = agent["Agent"]
+                settings.agents.append(
+                    Agent(id=agent["id"], value=agent["value"], src=agent["src"], dest=agent["dest"],
+                          speed=agent["speed"],
+                          pos=agent["pos"]))
 
             # check events
             for event in pygame.event.get():

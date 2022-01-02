@@ -5,7 +5,7 @@ import update
 from Classes.Agent import Agent
 from Classes.Pokemon import Pokemon
 from Classes.client import Client
-from student_code import Gui
+from run_game import Gui
 
 
 def where_to_put_agents():
