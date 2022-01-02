@@ -17,6 +17,7 @@ class Pokemon:
         """
          מקבלים ליסט שהוא ה ערך של הצלעות, edgelist
          "src_dest"
+         tell me where is the pokimon located
         """
         pass
 
