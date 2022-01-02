@@ -2,6 +2,8 @@
 from Classes.DiGraph import DiGraph
 from Classes.GraphAlgo import GraphAlgo
 
+processes = []
+
 PORT = 6666
 # server host (default localhost 127.0.0.1)
 HOST = '127.0.0.1'
@@ -24,8 +26,3 @@ game_level = 0
 max_user_level = -1
 info_id = 0
 info_graph = ""
-
-
-
-
-

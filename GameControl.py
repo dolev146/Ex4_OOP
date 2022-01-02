@@ -1,7 +1,9 @@
 import json
 
 import settings
+import update
 from Classes.Agent import Agent
+from Classes.Pokemon import Pokemon
 from Classes.client import Client
 from student_code import Gui
 
@@ -50,6 +52,12 @@ def init_connection():
         settings.graph.add_edge(int(e["src"]), int(e["dest"]), float(e["w"]))
     settings.algo.init(settings.graph)
 
+    json_pokemons = settings.client.get_pokemons()
+    dict_pokemons = json.loads(json_pokemons)
+    for pok in dict_pokemons["Pokemons"]:
+        pok = pok["Pokemon"]
+        settings.pokemons.append(Pokemon(value=pok["value"], type=pok["type"], pos=pok["pos"]))
+
     # the reason this func in before everything is that in order to build the agents list
     #  we need to set the agents at first to access their information
     where_to_put_agents()
@@ -71,11 +79,11 @@ def init_connection():
     where_to_put_agents()
 
 
-
 class GameControl:
 
     def __init__(self):
         init_connection()
+        # update.start_update_process()
         Gui()
         # start the game only when we finish with gui and establishing connection
         settings.client.start()

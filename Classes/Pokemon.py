@@ -3,6 +3,10 @@ class Pokemon:
         self.value = value
         self.type = type
         self.pos = pos
+        split_pos = self.pos.split(",")
+        self.x = float(split_pos[0])
+        self.y = float(split_pos[1])
+        self.z = float(split_pos[2])
         self.edge = None
         self.src = None
         self.dest = None
