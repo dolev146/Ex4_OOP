@@ -36,10 +36,10 @@ Start the Gui
 
 ```bash
 windows
-    python Ex3.py ./data/A0.json
+    python Ex4.py ./data_ex3/A0.json
 
 mac
-    python3 Ex3.py ./data/A0.json
+    python3 Ex4.py ./data_ex3/A0.json
 ```
 
 please watch the demo to know the specific input sytax.

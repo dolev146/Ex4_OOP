@@ -17,7 +17,7 @@ if __name__ == '__main__':
     # if u mant tot test outputs on terminal just comment the above lines, to stop the gui
     # and use the example bellow
     # ga = GraphAlgo()
-    # ga.load_from_json("./data/A0.json")
+    # ga.load_from_json("./data_ex3/A0.json")
     # print(ga.centerPoint())
     # print(ga.TSP([7, 5, 3]))
     # print(ga.shortest_path(1, 5))

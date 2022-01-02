@@ -135,7 +135,7 @@ class GraphAlgo(GraphAlgoInterface):
 
 if __name__ == '__main__':
     ga = GraphAlgo()
-    ga.load_from_json("../../data/A5.json")
+    ga.load_from_json("../../data_ex3/A5.json")
     # ga.graph.all_in_edges_of_node(1)
     # b=ga.shortest_path(2,20)
     # c=ga.TSP([8,5,2,4,3])
