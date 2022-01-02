@@ -50,7 +50,7 @@ for n in graph.Nodes:
     x, y, _ = n.pos.split(',')
     n.pos = SimpleNamespace(x=float(x), y=float(y))
 
- # get data proportions
+ # get data_ex3 proportions
 min_x = min(list(graph.Nodes), key=lambda n: n.pos.x).pos.x
 min_y = min(list(graph.Nodes), key=lambda n: n.pos.y).pos.y
 max_x = max(list(graph.Nodes), key=lambda n: n.pos.x).pos.x
@@ -59,7 +59,7 @@ max_y = max(list(graph.Nodes), key=lambda n: n.pos.y).pos.y
 
 def scale(data, min_screen, max_screen, min_data, max_data):
     """
-    get the scaled data with proportions min_data, max_data
+    get the scaled data_ex3 with proportions min_data, max_data
     relative to min and max screen dimentions
     """
     return ((data - min_data) / (max_data-min_data)) * (max_screen - min_screen) + min_screen

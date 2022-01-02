@@ -102,7 +102,7 @@ class Client:
                 "game_level":0,
                 "max_user_level":-1,
                 "id":0,
-                "graph":"data/A0",
+                "graph":"data_ex3/A0",
                 "agents":1
             }
         }

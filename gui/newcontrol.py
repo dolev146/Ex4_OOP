@@ -15,7 +15,7 @@ def prompt_file():
     """Create a Tk file dialog and cleanup when finished"""
     top = tkinter.Tk()
     top.withdraw()  # hide window
-    file_name = tkinter.filedialog.askopenfilename(parent=top, initialdir="./data")
+    file_name = tkinter.filedialog.askopenfilename(parent=top, initialdir="./data_ex3")
     top.destroy()
     return file_name
 
@@ -412,4 +412,4 @@ def GUI():
 
 
 if __name__ == '__main__':
-    GUI("../data/A2.json")
+    GUI("../data_ex3/A2.json")

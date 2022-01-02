@@ -8,8 +8,14 @@ class Agent:
         self.pos = pos
 
     def __str__(self) -> str:
-        return f""" Agen(id= {self.id} , value= {self.value} , src= {self.src}, dest= {self.dest},  speed= {self.speed} , pos = {self.pos}  ) \n"""
+        return f""" Agent(id= {self.id} , value= {self.value} , src= {self.src}, dest= {self.dest},  speed= {self.speed} , pos = {self.pos}  ) \n"""
 
     def __repr__(self) -> str:
-        return f""" Agen(id= {self.id} , value= {self.value} , src= {self.src}, dest= {self.dest},  speed= {self.speed} , pos = {self.pos}  ) \n"""
+        return f""" Agent(id= {self.id} , value= {self.value} , src= {self.src}, dest= {self.dest},  speed= {self.speed} , pos = {self.pos}  ) \n"""
+
+    def next_node(self):
+        pass
+
+    def add_pokemon(self):
+        pass
 
