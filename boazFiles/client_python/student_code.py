@@ -161,7 +161,5 @@ while client.is_running() == 'true':
             ttl = client.time_to_end()
             print(ttl, client.get_info())
 
-    print(counter)
-    counter = counter + 1
     client.move()
 # game over:
