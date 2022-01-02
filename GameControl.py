@@ -86,7 +86,7 @@ class GameControl:
         # update.start_update_process()
         Gui()
         # start the game only when we finish with gui and establishing connection
-        settings.client.start()
+
 
     def control_agent(self):
         """

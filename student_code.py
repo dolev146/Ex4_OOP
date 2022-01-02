@@ -86,7 +86,8 @@ class Gui:
         The GUI and the "algo" are mixed - refactoring using MVC design pattern is required.
         """
         # counter = 0
-        while True:
+        settings.client.start()
+        while settings.client.is_running() == 'true':
             # pokemons = [p.Pokemon for p in settings.pokemons]
             # for p in pokemons:
             #     x, y, _ = p.pos.split(',')
