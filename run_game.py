@@ -28,27 +28,7 @@ class Gui:
         clock = pygame.time.Clock()
         pygame.font.init()
 
-        # client = Client()
-        # client.start_connection(HOST, PORT)
-
-        # pokemons = client.get_pokemons()
-        # pokemons_obj = json.loads(pokemons, object_hook=lambda d: SimpleNamespace(**d))
-
-        # pokemons_obj = json.loads(pokemons, object_hook=lambda d: SimpleNamespace(**d))
-        # print(pokemons)
-
-        # graph_json = client.get_graph()
-        # graph_json = client.get_graph()
-
         FONT = pygame.font.SysFont('Arial', 20, bold=True)
-        # load the json string into SimpleNamespace Object
-
-        # graph = json.loads(
-        #     graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
-
-        # for n in graph.Nodes:
-        #     x, y, _ = n.pos.split(',')
-        #     n.pos = SimpleNamespace(x=float(x), y=float(y))
 
         # get data_ex3 proportions
         node_list = list(settings.graph.Nodes.values())
@@ -74,14 +54,6 @@ class Gui:
 
         radius = 15
 
-        # need to check how much agents i have
-        # client.add_agent("{\"id\":0}")
-        # client.add_agent("{\"id\":1}")
-        # client.add_agent("{\"id\":2}")
-        # client.add_agent("{\"id\":3}")
-
-        # this commnad starts the server - the game is running now
-
         """
         The code below should be improved significantly:
         The GUI and the "algo" are mixed - refactoring using MVC design pattern is required.
@@ -89,18 +61,6 @@ class Gui:
         # counter = 0
         settings.client.start()
         while settings.client.is_running() == 'true':
-            # pokemons = [p.Pokemon for p in settings.pokemons]
-            # for p in pokemons:
-            #     x, y, _ = p.pos.split(',')
-            #     p.pos = SimpleNamespace(x=my_scale(
-            #         float(x), x=True), y=my_scale(float(y), y=True))
-            # agents = json.loads(settings.client.get_agents(),
-            #                     object_hook=lambda d: SimpleNamespace(**d)).Agents
-            # agents = [agent.Agent for agent in agents]
-            # for a in agents:
-            #     x, y, _ = a.pos.split(',')
-            #     a.pos = SimpleNamespace(x=my_scale(
-            #         float(x), x=True), y=my_scale(float(y), y=True))
             json_pokemons = settings.client.get_pokemons()
             dict_pokemons = json.loads(json_pokemons)
             for pok in dict_pokemons["Pokemons"]:
@@ -120,7 +80,6 @@ class Gui:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     settings.client.stop_connection()
-                    # settings.processes[0].join()
                     pygame.quit()
                     exit(0)
 
@@ -161,6 +120,7 @@ class Gui:
                 y = my_scale(agent.y, y=True)
                 pygame.draw.circle(screen, Color(122, 61, 23),
                                    (int(x), int(y)), 10)
+
             # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons
             # (currently they are marked in the same way).
             for p in settings.pokemons:
