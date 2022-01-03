@@ -33,9 +33,8 @@ class Pokemon:
             d1 = distance["value"]
             d2 = math.dist([self.x, self.y], [src.x, src.y])
             d3 = math.dist([self.x, self.y], [dest.x, dest.y])
-            if distance["src"] == 9 and distance["dest"] == 8:
-                if d1 - 0.00001 < d2 + d3 < d1 + 0.00001:
-                    self.win_node = src
+            if d1 - 0.00001 < d2 + d3 < d1 + 0.00001:
+                self.win_node = src
 
         a = 5
 

@@ -53,6 +53,7 @@ def init_connection():
     print(settings.client.get_info())
     info = json.loads(settings.client.get_info())
     settings.agents_amount = info['GameServer']["agents"]
+    print("agents amount: " + str(settings.agents_amount))
     settings.pokemons_amount = info['GameServer']["pokemons"]
     settings.game_level = info['GameServer']["game_level"]
     settings.moves = info['GameServer']["moves"]
@@ -113,6 +114,9 @@ def init_connection():
     # the reason this func in before everything is that in order to build the agents list
     #  we need to set the agents at first to access their information
     where_to_put_agents()
+    # settings.client.add_agent("{\"id\":" + str(0) + "}")
+    # settings.client.add_agent("{\"id\":" + str(0) + "}")
+    # settings.client.add_agent("{\"id\":" + str(0) + "}")
     json_agents = settings.client.get_agents()
     dict_agents = json.loads(json_agents)
     for agent in dict_agents['Agents']:
@@ -128,7 +132,7 @@ def init_connection():
     print(settings.client.get_graph())
     print(settings.client.get_pokemons())
     print(settings.client.get_agents())
-    where_to_put_agents()
+    # where_to_put_agents()
 
 
 class GameControl:
