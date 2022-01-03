@@ -1,4 +1,6 @@
 # default port
+import math
+
 from Classes.DiGraph import DiGraph
 from Classes.GraphAlgo import GraphAlgo
 
@@ -17,6 +19,10 @@ eps1 = 0.001
 eps2 = 0.000001
 epsilon = 0.000001
 
+edges_minus = []
+edges_plus = []
+distance_edges = []
+
 # game server info from json
 pokemons_amount = 0
 is_logged_in = False
@@ -26,3 +32,5 @@ game_level = 0
 max_user_level = -1
 info_id = 0
 info_graph = ""
+
+
