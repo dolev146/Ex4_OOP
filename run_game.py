@@ -107,7 +107,7 @@ class Gui:
                 settings.agents.append(
                     Agent(id=agent["id"], value=agent["value"], src=agent["src"], dest=agent["dest"],
                           speed=agent["speed"], pos=agent["pos"]))
-
+             #   if agentInRadius()
 
 
 

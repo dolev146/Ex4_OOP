@@ -5,24 +5,25 @@ from Classes.Agent import Agent
 from Classes.Pokemon import Pokemon
 
 
-def LengthAndPathFromPokemonToAgent(agent: Agent, pokemon: Pokemon) -> (float, list):
-    return settings.algo.shortest_path(agent.src, pokemon.win_node_src)
+def LengthAndPathFromPokemonToAgent(src: int, dest: int) -> (float, list):
+    return settings.algo.shortest_path(src, dest)
 
-def control_agent(pokemon: Pokemon) -> (int, float, list):
-    # get pokemon and return tuple with the best length(idAgent,lengthOfThePath,listPath)
-    bestAgentId = -1
+
+def control_agent(agent: Agent, PokemonsList) -> int:
+    # get Agent and return id node of the best pokemon next edge(idAgent,lengthOfThePath,listPath)
+    pokemonSaveDest=-1
     bestTuple = (sys.maxsize, [])
-    tempAgentId = -1
     tempTuple = (sys.maxsize, [])
-    for agent in settings.agents.values():
-        if agent.dest != -1:
-            tempAgentId = agent.id
-            tempTuple = LengthAndPathFromPokemonToAgent(agent.id, pokemon.win_node_src)
+    for pokemon in PokemonsList:
+        tempTuple = LengthAndPathFromPokemonToAgent(agent.src, pokemon.win_node_src.id)
 
-        if bestTuple[1] > tempTuple[1]:
-            bestAgentId = tempAgentId
+        if bestTuple[0] > tempTuple[0]:
             bestTuple = tempTuple
-    return bestAgentId, bestTuple[0], bestTuple[1]
+            pokemonSaveDest=pokemon.win_node_dest.id
+
+    if len(bestTuple[1])==1:
+        return pokemonSaveDest
+    return bestTuple[1][1]
 
 
 def make_decisions():
@@ -32,6 +33,9 @@ def make_decisions():
      settings.move_list.append({"agent_id": agent.id , "next_node_id": next_node)
      *** note it will only add a move list when it is not exist
     """
-    for pokimon in settings.pokemons:
+    copyPokemonsList = list(settings.pokemons)
 
-
+    for agent in settings.agents:
+        if agent.dest == -1:
+            agent.dest = control_agent(agent, copyPokemonsList)
+            settings.movelist.append({"agent_id": agent.id, "next_node_id": agent.dest})
