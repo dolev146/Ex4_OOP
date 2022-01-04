@@ -17,6 +17,7 @@ import time
 from Classes.Agent import Agent
 from Classes.Pokemon import Pokemon
 from agentControl import make_decisions
+from gui.Button import Button
 from moveControl import decide_to_move
 
 
@@ -62,8 +63,33 @@ class Gui:
         The GUI and the "algo" are mixed - refactoring using MVC design pattern is required.
         """
         # counter = 0
+        center_button = Button((150, 20, 30), 2, 2, 70, 20, 'pause')
+
+        base_font_save_json = pygame.font.Font(None, 20)
+
         settings.client.start()
         while settings.client.is_running() == 'true':
+            time_to_end = settings.client.time_to_end()
+            if float(time_to_end) < 100:
+                settings.client.stop_connection()
+                pygame.quit()
+                exit(0)
+            # check events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    settings.client.stop()
+                    pygame.quit()
+                    exit(0)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if center_button.isOver(pygame.mouse.get_pos()):
+                        print(settings.client.get_info())
+                        settings.client.stop()
+                        # settings.client.stop_connection()
+                        pygame.quit()
+                        exit(0)
+
+            time_to_end = f"time to end: {time_to_end}"
+
             settings.pokemons.clear()
             json_pokemons = settings.client.get_pokemons()
             dict_pokemons = json.loads(json_pokemons)
@@ -82,15 +108,11 @@ class Gui:
                     Agent(id=agent["id"], value=agent["value"], src=agent["src"], dest=agent["dest"],
                           speed=agent["speed"], pos=agent["pos"]))
 
-            # check events
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    settings.client.stop_connection()
-                    pygame.quit()
-                    exit(0)
+
+
 
             # refresh surface
-            screen.fill(Color(0, 0, 0))
+            screen.fill(Color(173, 171, 165))
 
             # draw nodes
             for n in settings.graph.Nodes.values():
@@ -137,6 +159,10 @@ class Gui:
                 else:
                     pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
 
+            center_button.draw(screen)
+
+            text_surface = base_font_save_json.render(time_to_end, True, (0, 0, 128))
+            screen.blit(text_surface, (2, 30))
             # update screen changes
             display.update()
 
