@@ -182,7 +182,7 @@ class Gui:
             # print(counter)
             # counter = counter + 1
 
-            # settings.client.move()
-            decide_to_move()
+            settings.client.move()
+#            decide_to_move()
 
         # game over:

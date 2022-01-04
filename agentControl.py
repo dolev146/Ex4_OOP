@@ -38,4 +38,7 @@ def make_decisions():
     for agent in settings.agents:
         if agent.dest == -1:
             agent.dest = control_agent(agent, copyPokemonsList)
-            settings.movelist.append({"agent_id": agent.id, "next_node_id": agent.dest})
+        #    settings.movelist.append({"agent_id": agent.id, "next_node_id": agent.dest})
+            settings.client.choose_next_edge(
+                '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(agent.dest) + '}')
+            settings.client.move()
