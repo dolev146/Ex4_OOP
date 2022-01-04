@@ -15,9 +15,6 @@ agents = []
 pokemons = []
 graph = DiGraph()
 algo = GraphAlgo()
-eps1 = 0.001
-eps2 = 0.000001
-epsilon = 0.000001
 
 edges_minus = []
 edges_plus = []
@@ -32,5 +29,8 @@ game_level = 0
 max_user_level = -1
 info_id = 0
 info_graph = ""
+
+# {"agent_id": agent.id , "next_node_id": next_node }
+movelist = []
 
 

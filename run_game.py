@@ -15,6 +15,7 @@ import time
 
 from Classes.Agent import Agent
 from Classes.Pokemon import Pokemon
+from agentControl import make_decisions
 
 
 class Gui:
@@ -126,7 +127,11 @@ class Gui:
             for p in settings.pokemons:
                 x = my_scale(p.x, x=True)
                 y = my_scale(p.y, y=True)
-                pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
+                if p.type > 0:
+                    pygame.draw.circle(screen, Color(252, 3, 23), (int(x), int(y)), 10)
+                else:
+                    pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
+
 
             # update screen changes
             display.update()
@@ -142,6 +147,7 @@ class Gui:
 
 
             # choose next edge
+            make_decisions()
             # for agent in settings.agents:
             #     if agent.dest == -1:
             #         next_node = (agent.src - 1) % len(settings.graph.Nodes)
@@ -157,4 +163,5 @@ class Gui:
             # counter = counter + 1
 
             # settings.client.move()
+
         # game over:
