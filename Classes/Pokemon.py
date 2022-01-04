@@ -27,7 +27,7 @@ class Pokemon:
          "src_dest"
          tell me where is the pokimon located
         """
-        print("pok pos : " + " x: " + str(self.x) + "y : " + str(self.y) + "type: " + str(self.type))
+        # print("pok pos : " + " x: " + str(self.x) + "y : " + str(self.y) + "type: " + str(self.type))
         for distance in settings.distance_edges:
             src = settings.graph.Nodes.get(distance["src"])
             dest = settings.graph.Nodes.get(distance["dest"])
@@ -39,12 +39,12 @@ class Pokemon:
                 if self.type > 0 and dest.id > src.id:
                     self.win_node_src = dest
                     self.win_node_dest = src
-                    print(f"from {src.id} to {dest.id} is on  ")
+                    # print(f"from {src.id} to {dest.id} is on  ")
 
                 elif self.type < 0 and dest.id < src.id:
                     self.win_node_src = src
                     self.win_node_dest = dest
-                    print(f"from {src.id} to {dest.id} is on  ")
+                    # print(f"from {src.id} to {dest.id} is on  ")
 
 
         # for yashar in settings.edges_plus:

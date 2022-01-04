@@ -3,7 +3,7 @@
 OOP - Ex4
 Very simple GUI example for python client to communicates with the server and "play the game!"
 """
-
+# from time import time
 import json
 from operator import attrgetter
 
@@ -68,121 +68,134 @@ class Gui:
         base_font_save_json = pygame.font.Font(None, 20)
 
         settings.client.start()
-        while settings.client.is_running() == 'true':
+        stop_button_pressed = False
+        while stop_button_pressed is not True and settings.client.is_running() == 'true':
             time_to_end = settings.client.time_to_end()
             if float(time_to_end) < 100:
-                settings.client.stop_connection()
+                print(settings.client.get_info())
+                settings.client.stop()
+                # settings.client.stop_connection()
                 pygame.quit()
                 exit(0)
             # check events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    print(settings.client.get_info())
                     settings.client.stop()
                     pygame.quit()
                     exit(0)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if center_button.isOver(pygame.mouse.get_pos()):
                         print(settings.client.get_info())
+                        stop_button_pressed = True
                         settings.client.stop()
                         # settings.client.stop_connection()
                         pygame.quit()
-                        exit(0)
+                        # exit(0)
 
-            time_to_end = f"time to end: {time_to_end}"
+            if stop_button_pressed is not True:
+                time_to_end = f"time to end: {time_to_end}"
 
-            settings.pokemons.clear()
-            json_pokemons = settings.client.get_pokemons()
-            dict_pokemons = json.loads(json_pokemons)
-            for pok in dict_pokemons["Pokemons"]:
-                pok = pok["Pokemon"]
-                pok_obj = Pokemon(value=pok["value"], type=pok["type"], pos=pok["pos"])
-                pok_obj.set_edge()
-                settings.pokemons.append(pok_obj)
+                settings.pokemons.clear()
+                json_pokemons = settings.client.get_pokemons()
+                dict_pokemons = json.loads(json_pokemons)
+                for pok in dict_pokemons["Pokemons"]:
+                    pok = pok["Pokemon"]
+                    pok_obj = Pokemon(value=pok["value"], type=pok["type"], pos=pok["pos"])
+                    pok_obj.set_edge()
+                    settings.pokemons.append(pok_obj)
 
-            settings.agents.clear()
-            json_agents = settings.client.get_agents()
-            dict_agents = json.loads(json_agents)
-            for agent in dict_agents['Agents']:
-                agent = agent["Agent"]
-                settings.agents.append(
-                    Agent(id=agent["id"], value=agent["value"], src=agent["src"], dest=agent["dest"],
-                          speed=agent["speed"], pos=agent["pos"]))
-             #   if agentInRadius()
+                settings.agents.clear()
+                json_agents = settings.client.get_agents()
+                dict_agents = json.loads(json_agents)
+                for agent in dict_agents['Agents']:
+                    agent = agent["Agent"]
+                    settings.agents.append(
+                        Agent(id=agent["id"], value=agent["value"], src=agent["src"], dest=agent["dest"],
+                              speed=agent["speed"], pos=agent["pos"]))
+                #   if agentInRadius()
 
+                # refresh surface
+                screen.fill(Color(173, 171, 165))
 
+                # draw nodes
+                for n in settings.graph.Nodes.values():
+                    x = my_scale(n.x, x=True)
+                    y = my_scale(n.y, y=True)
+                    # its just to get a nice antialiasing circle
+                    gfxdraw.filled_circle(screen, int(x), int(y),
+                                          radius, Color(64, 80, 174))
+                    gfxdraw.aacircle(screen, int(x), int(y),
+                                     radius, Color(255, 255, 255))
+                    # draw the node id
+                    id_srf = FONT.render(str(n.id), True, Color(255, 255, 255))
+                    rect = id_srf.get_rect(center=(x, y))
+                    screen.blit(id_srf, rect)
 
-            # refresh surface
-            screen.fill(Color(173, 171, 165))
+                # draw edges
+                for e in settings.graph.Edges.values():
+                    # find the edge nodes
+                    src = next(n for n in settings.graph.Nodes.values() if n.id == e.src)
+                    dest = next(n for n in settings.graph.Nodes.values() if n.id == e.dest)
+                    # scaled positions
+                    src_x = my_scale(src.x, x=True)
+                    src_y = my_scale(src.y, y=True)
+                    dest_x = my_scale(dest.x, x=True)
+                    dest_y = my_scale(dest.y, y=True)
+                    # draw the line
+                    pygame.draw.line(screen, Color(61, 72, 126),
+                                     (src_x, src_y), (dest_x, dest_y))
 
-            # draw nodes
-            for n in settings.graph.Nodes.values():
-                x = my_scale(n.x, x=True)
-                y = my_scale(n.y, y=True)
-                # its just to get a nice antialiasing circle
-                gfxdraw.filled_circle(screen, int(x), int(y),
-                                      radius, Color(64, 80, 174))
-                gfxdraw.aacircle(screen, int(x), int(y),
-                                 radius, Color(255, 255, 255))
-                # draw the node id
-                id_srf = FONT.render(str(n.id), True, Color(255, 255, 255))
-                rect = id_srf.get_rect(center=(x, y))
-                screen.blit(id_srf, rect)
+                # draw agents
+                for agent in settings.agents:
+                    x = my_scale(agent.x, x=True)
+                    y = my_scale(agent.y, y=True)
+                    pygame.draw.circle(screen, Color(122, 61, 23),
+                                       (int(x), int(y)), 10)
 
-            # draw edges
-            for e in settings.graph.Edges.values():
-                # find the edge nodes
-                src = next(n for n in settings.graph.Nodes.values() if n.id == e.src)
-                dest = next(n for n in settings.graph.Nodes.values() if n.id == e.dest)
-                # scaled positions
-                src_x = my_scale(src.x, x=True)
-                src_y = my_scale(src.y, y=True)
-                dest_x = my_scale(dest.x, x=True)
-                dest_y = my_scale(dest.y, y=True)
-                # draw the line
-                pygame.draw.line(screen, Color(61, 72, 126),
-                                 (src_x, src_y), (dest_x, dest_y))
+                # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons
+                # (currently they are marked in the same way).
+                for p in settings.pokemons:
+                    x = my_scale(p.x, x=True)
+                    y = my_scale(p.y, y=True)
+                    if p.type > 0:
+                        pygame.draw.circle(screen, Color(252, 3, 23), (int(x), int(y)), 10)
+                    else:
+                        pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
 
-            # draw agents
-            for agent in settings.agents:
-                x = my_scale(agent.x, x=True)
-                y = my_scale(agent.y, y=True)
-                pygame.draw.circle(screen, Color(122, 61, 23),
-                                   (int(x), int(y)), 10)
+                center_button.draw(screen)
 
-            # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons
-            # (currently they are marked in the same way).
-            for p in settings.pokemons:
-                x = my_scale(p.x, x=True)
-                y = my_scale(p.y, y=True)
-                if p.type > 0:
-                    pygame.draw.circle(screen, Color(252, 3, 23), (int(x), int(y)), 10)
-                else:
-                    pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
+                text_surface = base_font_save_json.render(time_to_end, True, (0, 0, 128))
+                screen.blit(text_surface, (2, 30))
+                # update screen changes
+                display.update()
 
-            center_button.draw(screen)
+                # refresh rate
+                clock.tick(60)
+                # time_not_passed = True
+                # init_time = time.time()  # Or time.time() if whole module imported
+                # print("0.00 secs")
+                # while True:  # Init loop
+                #     # Time not passed variable is important as we want this to run once. !!!
+                #     # time.time() if whole module imported :O
+                #     if init_time + 0.2 <= time.time() and time_not_passed:
+                #         break
 
-            text_surface = base_font_save_json.render(time_to_end, True, (0, 0, 128))
-            screen.blit(text_surface, (2, 30))
-            # update screen changes
-            display.update()
+                # choose next edge
+                make_decisions()
+                # for agent in settings.agents:
+                #     if agent.dest == -1:
+                #         next_node = (agent.src - 1) % len(settings.graph.Nodes)
+                #         settings.client.choose_next_edge(
+                #             '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_node) + '}')
+                #         ttl = settings.client.time_to_end()
+                #         print(ttl, settings.client.get_info())
 
-            # refresh rate
-            clock.tick(10)
+                # print(counter)
+                # counter = counter + 1
 
-            # choose next edge
-            make_decisions()
-            # for agent in settings.agents:
-            #     if agent.dest == -1:
-            #         next_node = (agent.src - 1) % len(settings.graph.Nodes)
-            #         settings.client.choose_next_edge(
-            #             '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_node) + '}')
-            #         ttl = settings.client.time_to_end()
-            #         print(ttl, settings.client.get_info())
+                settings.client.move()
+    #            decide_to_move()
 
-            # print(counter)
-            # counter = counter + 1
-
-            settings.client.move()
-#            decide_to_move()
-
-        # game over:
+    # game over:
+        settings.client.stop_connection()
