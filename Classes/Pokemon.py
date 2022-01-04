@@ -12,7 +12,8 @@ class Pokemon:
         self.x = float(split_pos[0])
         self.y = float(split_pos[1])
         self.z = float(split_pos[2])
-        self.win_node = None
+        self.win_node_src = None
+        self.win_node_dest = None
 
     def __str__(self) -> str:
         return f""" pokemon(value= {self.value} , type= {self.type} , pos= {self.pos} \n"""
@@ -22,7 +23,7 @@ class Pokemon:
 
     def set_edge(self):
         """
-         מקבלים ליסט שהוא ה ערך של הצלעות, edgelist
+         edgelist
          "src_dest"
          tell me where is the pokimon located
         """
@@ -34,9 +35,17 @@ class Pokemon:
             d2 = math.dist([self.x, self.y], [src.x, src.y])
             d3 = math.dist([self.x, self.y], [dest.x, dest.y])
             if d1 - 0.00001 < d2 + d3 < d1 + 0.00001:
-                self.win_node = src
 
-        a = 5
+                if self.type > 0 and dest.id > src.id:
+                    self.win_node_src = dest
+                    self.win_node_dest = src
+                    print(f"from {src.id} to {dest.id} is on  ")
+
+                elif self.type < 0 and dest.id < src.id:
+                    self.win_node_src = src
+                    self.win_node_dest = dest
+                    print(f"from {src.id} to {dest.id} is on  ")
+
 
         # for yashar in settings.edges_plus:
         #     if yashar["src"] == 8 and yashar["dest"] == 9:

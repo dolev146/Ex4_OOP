@@ -18,13 +18,13 @@ def where_to_put_agents():
     # if amount equals no problem :)
     if settings.agents_amount == settings.pokemons_amount:
         for i in range(settings.agents_amount):
-            win_node_id = settings.pokemons[i].win_node.id
+            win_node_id = settings.pokemons[i].win_node_src.id
             settings.client.add_agent("{\"id\":" + str(win_node_id) + "}")
     # if agents are more than we need to spread the agents
     elif settings.agents_amount > settings.pokemons_amount:
         counter = 0
         for i in range(settings.pokemons_amount):
-            win_node_id = settings.pokemons[i].win_node.id
+            win_node_id = settings.pokemons[i].win_node_src.id
             settings.client.add_agent("{\"id\":" + str(win_node_id) + "}")
             taken_list.append(win_node_id)
             counter = i
@@ -37,7 +37,7 @@ def where_to_put_agents():
     # if pokemons are more then we just use all the agents to be close to pokemons
     elif settings.agents_amount < settings.pokemons_amount:
         for i in range(settings.pokemons_amount):
-            win_node_id = settings.pokemons[i].win_node.id
+            win_node_id = settings.pokemons[i].win_node_src.id
             settings.client.add_agent("{\"id\":" + str(win_node_id) + "}")
 
 
