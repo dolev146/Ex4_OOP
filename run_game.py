@@ -3,6 +3,7 @@
 OOP - Ex4
 Very simple GUI example for python client to communicates with the server and "play the game!"
 """
+
 import json
 from operator import attrgetter
 
@@ -16,6 +17,7 @@ import time
 from Classes.Agent import Agent
 from Classes.Pokemon import Pokemon
 from agentControl import make_decisions
+from moveControl import decide_to_move
 
 
 class Gui:
@@ -62,20 +64,23 @@ class Gui:
         # counter = 0
         settings.client.start()
         while settings.client.is_running() == 'true':
+            settings.pokemons.clear()
             json_pokemons = settings.client.get_pokemons()
             dict_pokemons = json.loads(json_pokemons)
             for pok in dict_pokemons["Pokemons"]:
                 pok = pok["Pokemon"]
-                settings.pokemons.append(Pokemon(value=pok["value"], type=pok["type"], pos=pok["pos"]))
+                pok_obj = Pokemon(value=pok["value"], type=pok["type"], pos=pok["pos"])
+                pok_obj.set_edge()
+                settings.pokemons.append(pok_obj)
 
+            settings.agents.clear()
             json_agents = settings.client.get_agents()
             dict_agents = json.loads(json_agents)
             for agent in dict_agents['Agents']:
                 agent = agent["Agent"]
                 settings.agents.append(
                     Agent(id=agent["id"], value=agent["value"], src=agent["src"], dest=agent["dest"],
-                          speed=agent["speed"],
-                          pos=agent["pos"]))
+                          speed=agent["speed"], pos=agent["pos"]))
 
             # check events
             for event in pygame.event.get():
@@ -104,7 +109,7 @@ class Gui:
             # draw edges
             for e in settings.graph.Edges.values():
                 # find the edge nodes
-                src = next(n for n in settings.graph.Nodes.values() if n.id== e.src)
+                src = next(n for n in settings.graph.Nodes.values() if n.id == e.src)
                 dest = next(n for n in settings.graph.Nodes.values() if n.id == e.dest)
                 # scaled positions
                 src_x = my_scale(src.x, x=True)
@@ -132,19 +137,11 @@ class Gui:
                 else:
                     pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
 
-
             # update screen changes
             display.update()
 
             # refresh rate
-            clock.tick(60)
-
-            json_pokemons = settings.client.get_pokemons()
-            dict_pokemons = json.loads(json_pokemons)
-            for pok in dict_pokemons["Pokemons"]:
-                pok = pok["Pokemon"]
-                settings.pokemons.append(Pokemon(value=pok["value"], type=pok["type"], pos=pok["pos"]))
-
+            clock.tick(10)
 
             # choose next edge
             make_decisions()
@@ -163,5 +160,6 @@ class Gui:
             # counter = counter + 1
 
             # settings.client.move()
+            decide_to_move()
 
         # game over:
