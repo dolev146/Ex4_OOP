@@ -3,6 +3,7 @@
 OOP - Ex4
 Very simple GUI example for python client to communicates with the server and "play the game!"
 """
+
 import json
 from operator import attrgetter
 
@@ -13,7 +14,11 @@ from pygame import *
 
 import time
 
+from Classes.Agent import Agent
 from Classes.Pokemon import Pokemon
+from agentControl import make_decisions
+from gui.Button import Button
+from moveControl import decide_to_move
 
 
 class Gui:
@@ -27,27 +32,7 @@ class Gui:
         clock = pygame.time.Clock()
         pygame.font.init()
 
-        # client = Client()
-        # client.start_connection(HOST, PORT)
-
-        # pokemons = client.get_pokemons()
-        # pokemons_obj = json.loads(pokemons, object_hook=lambda d: SimpleNamespace(**d))
-
-        # pokemons_obj = json.loads(pokemons, object_hook=lambda d: SimpleNamespace(**d))
-        # print(pokemons)
-
-        # graph_json = client.get_graph()
-        # graph_json = client.get_graph()
-
         FONT = pygame.font.SysFont('Arial', 20, bold=True)
-        # load the json string into SimpleNamespace Object
-
-        # graph = json.loads(
-        #     graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
-
-        # for n in graph.Nodes:
-        #     x, y, _ = n.pos.split(',')
-        #     n.pos = SimpleNamespace(x=float(x), y=float(y))
 
         # get data_ex3 proportions
         node_list = list(settings.graph.Nodes.values())
@@ -73,44 +58,61 @@ class Gui:
 
         radius = 15
 
-        # need to check how much agents i have
-        # client.add_agent("{\"id\":0}")
-        # client.add_agent("{\"id\":1}")
-        # client.add_agent("{\"id\":2}")
-        # client.add_agent("{\"id\":3}")
-
-        # this commnad starts the server - the game is running now
-
         """
         The code below should be improved significantly:
         The GUI and the "algo" are mixed - refactoring using MVC design pattern is required.
         """
         # counter = 0
+        center_button = Button((150, 20, 30), 2, 2, 70, 20, 'pause')
+
+        base_font_save_json = pygame.font.Font(None, 20)
+
         settings.client.start()
         while settings.client.is_running() == 'true':
-            # pokemons = [p.Pokemon for p in settings.pokemons]
-            # for p in pokemons:
-            #     x, y, _ = p.pos.split(',')
-            #     p.pos = SimpleNamespace(x=my_scale(
-            #         float(x), x=True), y=my_scale(float(y), y=True))
-            # agents = json.loads(settings.client.get_agents(),
-            #                     object_hook=lambda d: SimpleNamespace(**d)).Agents
-            # agents = [agent.Agent for agent in agents]
-            # for a in agents:
-            #     x, y, _ = a.pos.split(',')
-            #     a.pos = SimpleNamespace(x=my_scale(
-            #         float(x), x=True), y=my_scale(float(y), y=True))
-
+            time_to_end = settings.client.time_to_end()
+            if float(time_to_end) < 100:
+                settings.client.stop_connection()
+                pygame.quit()
+                exit(0)
             # check events
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    settings.client.stop_connection()
-                    # settings.processes[0].join()
+                    settings.client.stop()
                     pygame.quit()
                     exit(0)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if center_button.isOver(pygame.mouse.get_pos()):
+                        print(settings.client.get_info())
+                        settings.client.stop()
+                        # settings.client.stop_connection()
+                        pygame.quit()
+                        exit(0)
+
+            time_to_end = f"time to end: {time_to_end}"
+
+            settings.pokemons.clear()
+            json_pokemons = settings.client.get_pokemons()
+            dict_pokemons = json.loads(json_pokemons)
+            for pok in dict_pokemons["Pokemons"]:
+                pok = pok["Pokemon"]
+                pok_obj = Pokemon(value=pok["value"], type=pok["type"], pos=pok["pos"])
+                pok_obj.set_edge()
+                settings.pokemons.append(pok_obj)
+
+            settings.agents.clear()
+            json_agents = settings.client.get_agents()
+            dict_agents = json.loads(json_agents)
+            for agent in dict_agents['Agents']:
+                agent = agent["Agent"]
+                settings.agents.append(
+                    Agent(id=agent["id"], value=agent["value"], src=agent["src"], dest=agent["dest"],
+                          speed=agent["speed"], pos=agent["pos"]))
+
+
+
 
             # refresh surface
-            screen.fill(Color(0, 0, 0))
+            screen.fill(Color(173, 171, 165))
 
             # draw nodes
             for n in settings.graph.Nodes.values():
@@ -129,7 +131,7 @@ class Gui:
             # draw edges
             for e in settings.graph.Edges.values():
                 # find the edge nodes
-                src = next(n for n in settings.graph.Nodes.values() if n.id== e.src)
+                src = next(n for n in settings.graph.Nodes.values() if n.id == e.src)
                 dest = next(n for n in settings.graph.Nodes.values() if n.id == e.dest)
                 # scaled positions
                 src_x = my_scale(src.x, x=True)
@@ -146,27 +148,29 @@ class Gui:
                 y = my_scale(agent.y, y=True)
                 pygame.draw.circle(screen, Color(122, 61, 23),
                                    (int(x), int(y)), 10)
+
             # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons
             # (currently they are marked in the same way).
             for p in settings.pokemons:
                 x = my_scale(p.x, x=True)
                 y = my_scale(p.y, y=True)
-                pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
+                if p.type > 0:
+                    pygame.draw.circle(screen, Color(252, 3, 23), (int(x), int(y)), 10)
+                else:
+                    pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
 
+            center_button.draw(screen)
+
+            text_surface = base_font_save_json.render(time_to_end, True, (0, 0, 128))
+            screen.blit(text_surface, (2, 30))
             # update screen changes
             display.update()
 
             # refresh rate
-            clock.tick(60)
-
-            json_pokemons = settings.client.get_pokemons()
-            dict_pokemons = json.loads(json_pokemons)
-            for pok in dict_pokemons["Pokemons"]:
-                pok = pok["Pokemon"]
-                settings.pokemons.append(Pokemon(value=pok["value"], type=pok["type"], pos=pok["pos"]))
-
+            clock.tick(10)
 
             # choose next edge
+            make_decisions()
             # for agent in settings.agents:
             #     if agent.dest == -1:
             #         next_node = (agent.src - 1) % len(settings.graph.Nodes)
@@ -175,11 +179,10 @@ class Gui:
             #         ttl = settings.client.time_to_end()
             #         print(ttl, settings.client.get_info())
 
-            # if ((time.time() - start) == 1.0):
-            # print("Process time: " + str(time.time() - start))
-
             # print(counter)
             # counter = counter + 1
 
             # settings.client.move()
+            decide_to_move()
+
         # game over:
