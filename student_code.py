@@ -175,7 +175,7 @@ class Gui:
             #         ttl = settings.client.time_to_end()
             #         print(ttl, settings.client.get_info())
 
-            # if ((time.time() - start) == 10.0):
+            # if ((time.time() - start) == 1.0):
             # print("Process time: " + str(time.time() - start))
 
             # print(counter)
