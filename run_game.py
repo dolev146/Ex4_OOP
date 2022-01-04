@@ -170,19 +170,19 @@ class Gui:
             clock.tick(10)
 
             # choose next edge
-            # make_decisions()
-            for agent in settings.agents:
-                if agent.dest == -1:
-                    next_node = (agent.src - 1) % len(settings.graph.Nodes)
-                    settings.client.choose_next_edge(
-                        '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_node) + '}')
-                    ttl = settings.client.time_to_end()
-                    print(ttl, settings.client.get_info())
+            make_decisions()
+            # for agent in settings.agents:
+            #     if agent.dest == -1:
+            #         next_node = (agent.src - 1) % len(settings.graph.Nodes)
+            #         settings.client.choose_next_edge(
+            #             '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_node) + '}')
+            #         ttl = settings.client.time_to_end()
+            #         print(ttl, settings.client.get_info())
 
             # print(counter)
             # counter = counter + 1
 
-            settings.client.move()
-            # decide_to_move()
+            # settings.client.move()
+            decide_to_move()
 
         # game over:
