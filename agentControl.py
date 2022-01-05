@@ -32,11 +32,11 @@ def make_decisions():
      settings.move_list.append({"agent_id": agent.id , "next_node_id": next_node)
      *** note it will only add a move list when it is not exist
     """
-    copyPokemonsList = list(settings.pokemons)
+    #copyPokemonsList = list(settings.pokemons)
 
     for agent in settings.agents:
         if agent.dest == -1:
-            agent.dest = control_agent(agent, copyPokemonsList)
+            agent.dest = control_agent(agent, settings.pokemons)
         #    settings.movelist.append({"agent_id": agent.id, "next_node_id": agent.dest})
             settings.client.choose_next_edge(
                 '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(agent.dest) + '}')
