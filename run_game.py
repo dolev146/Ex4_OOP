@@ -69,7 +69,11 @@ class Gui:
         base_font_move_counter = pygame.font.Font(None, 20)
         base_font_overall_points = pygame.font.Font(None, 20)
 
+
+
+
         settings.client.start()
+        length_game_time = float(settings.client.time_to_end())* 0.001
         stop_button_pressed = False
         while stop_button_pressed is not True and settings.client.is_running() == 'true':
             info_from_server = settings.client.get_info()
@@ -100,7 +104,9 @@ class Gui:
                         # exit(0)
 
             if stop_button_pressed is not True:
+                time_to_end_float = time_to_end
                 time_to_end = f"time to end: {round(time_to_end, 2)}"
+
 
                 settings.pokemons.clear()
                 json_pokemons = settings.client.get_pokemons()
@@ -193,7 +199,9 @@ class Gui:
                 #         break
 
                 # choose next edge
-                make_decisions()
+
+                if (length_game_time-time_to_end_float)*10 > move_counter:
+                    make_decisions()
                 # for agent in settings.agents:
                 #     if agent.dest == -1:
                 #         next_node = (agent.src - 1) % len(settings.graph.Nodes)
