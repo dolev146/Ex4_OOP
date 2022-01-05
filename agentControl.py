@@ -9,12 +9,12 @@ def LengthAndPathFromPokemonToAgent(src: int, dest: int) -> (float, list):
     return settings.algo.shortest_path(src, dest)
 
 
-def control_agent(agent: Agent, PokemonsList) -> int:
+def control_agent(agent: Agent) -> int:
     # get Agent and return id node of the best pokemon next edge(idAgent,lengthOfThePath,listPath)
     pokemonSaveDest=-1
     bestTuple = (sys.maxsize, [])
     tempTuple = (sys.maxsize, [])
-    for pokemon in list(PokemonsList):
+    for pokemon in list(settings.pokemons):
         tempTuple = LengthAndPathFromPokemonToAgent(agent.src, pokemon.win_node_src.id)
         if bestTuple[0] > tempTuple[0]:
             bestTuple = tempTuple
@@ -32,11 +32,9 @@ def make_decisions():
      settings.move_list.append({"agent_id": agent.id , "next_node_id": next_node)
      *** note it will only add a move list when it is not exist
     """
-    copyPokemonsList = list(settings.pokemons)
-
     for agent in settings.agents:
         if agent.dest == -1:
-            agent.dest = control_agent(agent, copyPokemonsList)
+            agent.dest = control_agent(agent)
         #    settings.movelist.append({"agent_id": agent.id, "next_node_id": agent.dest})
             settings.client.choose_next_edge(
                 '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(agent.dest) + '}')
