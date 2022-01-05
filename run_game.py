@@ -65,13 +65,19 @@ class Gui:
         # counter = 0
         center_button = Button((150, 20, 30), 2, 2, 70, 20, 'pause')
 
-        base_font_save_json = pygame.font.Font(None, 20)
+        base_font_timer = pygame.font.Font(None, 20)
+        base_font_move_counter = pygame.font.Font(None, 20)
+        base_font_overall_points = pygame.font.Font(None, 20)
 
         settings.client.start()
         stop_button_pressed = False
         while stop_button_pressed is not True and settings.client.is_running() == 'true':
-            time_to_end = settings.client.time_to_end()
-            if float(time_to_end) < 100:
+            info_from_server = settings.client.get_info()
+            info_from_server = json.loads(info_from_server)
+            move_counter = info_from_server['GameServer']["moves"]
+            overall_points = info_from_server['GameServer']["grade"]
+            time_to_end = float(settings.client.time_to_end()) * 0.001
+            if time_to_end < 100 * 0.001:
                 print(settings.client.get_info())
                 settings.client.stop()
                 # settings.client.stop_connection()
@@ -94,7 +100,7 @@ class Gui:
                         # exit(0)
 
             if stop_button_pressed is not True:
-                time_to_end = f"time to end: {time_to_end}"
+                time_to_end = f"time to end: {round(time_to_end, 2)}"
 
                 settings.pokemons.clear()
                 json_pokemons = settings.client.get_pokemons()
@@ -165,8 +171,13 @@ class Gui:
 
                 center_button.draw(screen)
 
-                text_surface = base_font_save_json.render(time_to_end, True, (0, 0, 128))
-                screen.blit(text_surface, (2, 30))
+                text_timer_to_print = base_font_timer.render(time_to_end, True, (0, 0, 128))
+                screen.blit(text_timer_to_print, (2, 30))
+                move_counter_to_print = base_font_move_counter.render(str(f"move counter : {move_counter}"), True, (0, 0, 128))
+                screen.blit(move_counter_to_print, (2, 50))
+                overall_points_to_print = base_font_overall_points.render(str(f"grade : {overall_points}"), True, (0, 0, 128))
+                screen.blit(overall_points_to_print, (2, 70))
+
                 # update screen changes
                 display.update()
 
@@ -194,8 +205,7 @@ class Gui:
                 # print(counter)
                 # counter = counter + 1
 
-                settings.client.move()
-    #            decide_to_move()
+        #            decide_to_move()
 
-    # game over:
+        # game over:
         settings.client.stop_connection()

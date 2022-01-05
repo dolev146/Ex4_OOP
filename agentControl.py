@@ -14,9 +14,8 @@ def control_agent(agent: Agent, PokemonsList) -> int:
     pokemonSaveDest=-1
     bestTuple = (sys.maxsize, [])
     tempTuple = (sys.maxsize, [])
-    for pokemon in PokemonsList:
+    for pokemon in list(PokemonsList):
         tempTuple = LengthAndPathFromPokemonToAgent(agent.src, pokemon.win_node_src.id)
-
         if bestTuple[0] > tempTuple[0]:
             bestTuple = tempTuple
             pokemonSaveDest=pokemon.win_node_dest.id
@@ -41,4 +40,4 @@ def make_decisions():
         #    settings.movelist.append({"agent_id": agent.id, "next_node_id": agent.dest})
             settings.client.choose_next_edge(
                 '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(agent.dest) + '}')
-            settings.client.move()
+    settings.client.move()
