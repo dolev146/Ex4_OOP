@@ -18,12 +18,15 @@ from Classes.Agent import Agent
 from Classes.Pokemon import Pokemon
 from agentControl import make_decisions
 from gui.Button import Button
-from moveControl import decide_to_move
 
 
 class Gui:
     def __init__(self):
         start = time.time()
+        agent_png = pygame.image.load("agent.png")
+        pika_png = pygame.image.load("pika.png")
+        eve_png = pygame.image.load("eve.png")
+        bg_png = pygame.image.load("bg.png")
 
         # init pygame
         WIDTH, HEIGHT = 1080, 720
@@ -63,17 +66,14 @@ class Gui:
         The GUI and the "algo" are mixed - refactoring using MVC design pattern is required.
         """
         # counter = 0
-        center_button = Button((150, 20, 30), 2, 2, 70, 20, 'pause')
+        center_button = Button((137, 122, 204), 2, 2, 70, 20, 'pause')
 
         base_font_timer = pygame.font.Font(None, 20)
         base_font_move_counter = pygame.font.Font(None, 20)
         base_font_overall_points = pygame.font.Font(None, 20)
 
-
-
-
         settings.client.start()
-        length_game_time = float(settings.client.time_to_end())* 0.001
+        length_game_time = float(settings.client.time_to_end()) * 0.001
         stop_button_pressed = False
         while stop_button_pressed is not True and settings.client.is_running() == 'true':
             info_from_server = settings.client.get_info()
@@ -107,7 +107,6 @@ class Gui:
                 time_to_end_float = time_to_end
                 time_to_end = f"time to end: {round(time_to_end, 2)}"
 
-
                 settings.pokemons.clear()
                 json_pokemons = settings.client.get_pokemons()
                 dict_pokemons = json.loads(json_pokemons)
@@ -128,7 +127,7 @@ class Gui:
                 #   if agentInRadius()
 
                 # refresh surface
-                screen.fill(Color(173, 171, 165))
+                screen.fill(Color(168, 228, 160))
 
                 # draw nodes
                 for n in settings.graph.Nodes.values():
@@ -162,8 +161,9 @@ class Gui:
                 for agent in settings.agents:
                     x = my_scale(agent.x, x=True)
                     y = my_scale(agent.y, y=True)
-                    pygame.draw.circle(screen, Color(122, 61, 23),
-                                       (int(x), int(y)), 10)
+                    screen.blit(agent_png, (int(x) - 15, int(y) - 15))
+                    # pygame.draw.circle(screen, Color(122, 61, 23),
+                    #                    (int(x), int(y)), 10)
 
                 # draw pokemons (note: should differ (GUI wise) between the up and the down pokemons
                 # (currently they are marked in the same way).
@@ -171,49 +171,28 @@ class Gui:
                     x = my_scale(p.x, x=True)
                     y = my_scale(p.y, y=True)
                     if p.type > 0:
-                        pygame.draw.circle(screen, Color(252, 3, 23), (int(x), int(y)), 10)
+                        screen.blit(pika_png, (int(x) - 15, int(y) - 15))
+                        # pygame.draw.circle(screen, Color(252, 3, 23), (int(x), int(y)), 10)
                     else:
-                        pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
+                        screen.blit(eve_png, (int(x) - 15, int(y) - 15))
+                        # pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
 
                 center_button.draw(screen)
 
                 text_timer_to_print = base_font_timer.render(time_to_end, True, (0, 0, 128))
                 screen.blit(text_timer_to_print, (2, 30))
-                move_counter_to_print = base_font_move_counter.render(str(f"move counter : {move_counter}"), True, (0, 0, 128))
+                move_counter_to_print = base_font_move_counter.render(str(f"move counter : {move_counter}"), True,
+                                                                      (0, 0, 128))
                 screen.blit(move_counter_to_print, (2, 50))
-                overall_points_to_print = base_font_overall_points.render(str(f"grade : {overall_points}"), True, (0, 0, 128))
+                overall_points_to_print = base_font_overall_points.render(str(f"grade : {overall_points}"), True,
+                                                                          (0, 0, 128))
                 screen.blit(overall_points_to_print, (2, 70))
+                xy_tuple = screen.get_rect().bottomright
+                screen.blit(bg_png, (xy_tuple[0] - 300, xy_tuple[1] - 120))
 
                 # update screen changes
                 display.update()
-
-                # refresh rate
                 clock.tick(60)
-                # time_not_passed = True
-                # init_time = time.time()  # Or time.time() if whole module imported
-                # print("0.00 secs")
-                # while True:  # Init loop
-                #     # Time not passed variable is important as we want this to run once. !!!
-                #     # time.time() if whole module imported :O
-                #     if init_time + 0.2 <= time.time() and time_not_passed:
-                #         break
 
-                # choose next edge
-
-                if (length_game_time-time_to_end_float)*10 > move_counter:
+                if (length_game_time - time_to_end_float) * 10 > move_counter:
                     make_decisions()
-                # for agent in settings.agents:
-                #     if agent.dest == -1:
-                #         next_node = (agent.src - 1) % len(settings.graph.Nodes)
-                #         settings.client.choose_next_edge(
-                #             '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_node) + '}')
-                #         ttl = settings.client.time_to_end()
-                #         print(ttl, settings.client.get_info())
-
-                # print(counter)
-                # counter = counter + 1
-
-        #            decide_to_move()
-
-        # game over:
-        settings.client.stop_connection()

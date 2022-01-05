@@ -3,7 +3,6 @@ import math
 import random
 
 import settings
-import update
 from Classes.Agent import Agent
 from Classes.Pokemon import Pokemon
 from Classes.client import Client
@@ -50,10 +49,10 @@ def init_connection():
     # login
     settings.client.log_in("207867342")
     # initializing the code info settings
-    print(settings.client.get_info())
+    # print(settings.client.get_info())
     info = json.loads(settings.client.get_info())
     settings.agents_amount = info['GameServer']["agents"]
-    print("agents amount: " + str(settings.agents_amount))
+    # print("agents amount: " + str(settings.agents_amount))
     settings.pokemons_amount = info['GameServer']["pokemons"]
     settings.game_level = info['GameServer']["game_level"]
     settings.moves = info['GameServer']["moves"]
@@ -128,10 +127,10 @@ def init_connection():
     # settings.agents = settings.client.get_agents()
     # settings.pokemons = settings.client.get_pokemons()
     # settings.graph = settings.client.get_graph()
-    print(settings.client.get_agents())
-    print(settings.client.get_graph())
-    print(settings.client.get_pokemons())
-    print(settings.client.get_agents())
+    # print(settings.client.get_agents())
+    # print(settings.client.get_graph())
+    # print(settings.client.get_pokemons())
+    # print(settings.client.get_agents())
     # where_to_put_agents()
 
 
