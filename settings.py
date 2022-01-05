@@ -33,4 +33,5 @@ info_graph = ""
 # {"agent_id": agent.id , "next_node_id": next_node }
 movelist = []
 
+agentDestNodeList={}
 

@@ -123,6 +123,7 @@ def init_connection():
         settings.agents.append(
             Agent(id=agent["id"], value=agent["value"], src=agent["src"], dest=agent["dest"], speed=agent["speed"],
                   pos=agent["pos"]))
+        settings.agentDestNodeList.update({int(agent["id"]):-1})
 
     # settings.agents = settings.client.get_agents()
     # settings.pokemons = settings.client.get_pokemons()
