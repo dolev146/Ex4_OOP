@@ -32,6 +32,7 @@ class Gui:
         WIDTH, HEIGHT = 1080, 720
         pygame.init()
         screen = display.set_mode((WIDTH, HEIGHT), depth=32, flags=RESIZABLE)
+        display.set_caption('Ex4 Pokemon Ariel by Dolev , Daniel and Yakov')
         icon_game = pygame.image.load("icon.png")
         pygame.display.set_icon(icon_game)
         clock = pygame.time.Clock()
