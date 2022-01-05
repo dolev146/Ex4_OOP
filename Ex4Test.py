@@ -25,5 +25,5 @@ class Ex4Test(TestCase):
         self.assertEqual(pokemon.win_node_src.id, 1)
         self.assertEqual(pokemon2.win_node_src.id, 2)
 
-    def test_make_decitions(self):
+    def test_make_decisions(self):
         pass
