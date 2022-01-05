@@ -34,7 +34,7 @@ class Pokemon:
             d1 = distance["value"]
             d2 = math.dist([self.x, self.y], [src.x, src.y])
             d3 = math.dist([self.x, self.y], [dest.x, dest.y])
-            if d1 - 0.00001 < d2 + d3 < d1 + 0.00001:
+            if d1 - 0.000001 < d2 + d3 < d1 + 0.000001:
 
                 if self.type > 0 and dest.id > src.id:
                     self.win_node_src = dest
