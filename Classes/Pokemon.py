@@ -35,41 +35,12 @@ class Pokemon:
             d2 = math.dist([self.x, self.y], [src.x, src.y])
             d3 = math.dist([self.x, self.y], [dest.x, dest.y])
             if d1 - 0.000001 < d2 + d3 < d1 + 0.000001:
-
                 if self.type > 0 and dest.id > src.id:
-                    self.win_node_src = dest
-                    self.win_node_dest = src
+                    self.win_node_src = src
+                    self.win_node_dest = dest
                     # print(f"from {src.id} to {dest.id} is on  ")
 
                 elif self.type < 0 and dest.id < src.id:
                     self.win_node_src = src
                     self.win_node_dest = dest
                     # print(f"from {src.id} to {dest.id} is on  ")
-
-
-        # for yashar in settings.edges_plus:
-        #     if yashar["src"] == 8 and yashar["dest"] == 9:
-        #         print("point")
-        #
-        #     y = yashar["m"] * self.x + yashar["c"]
-        #     if y - 0.001 < self.y < y + 0.001:
-        #         self.src = yashar["src"]
-        #
-        # for yashar in settings.edges_minus:
-        #     if yashar["src"] == 9 and yashar["dest"] == 8:
-        #         print("point")
-        #
-        #     y = yashar["m"] * self.x + yashar["c"]
-        #     if y - 0.001 < self.y < y + 0.001:
-        #         self.src = yashar["src"]
-
-        # if self.type > 0:
-        #     for yashar in settings.edges_plus:
-        #         y = yashar["m"] * self.x + yashar["c"]
-        #         if y - 0.001 < self.y < y + 0.001:
-        #             self.src = yashar["src"]
-        # else:
-        #     for yashar in settings.edges_minus:
-        #         y = yashar["m"] * self.x + yashar["c"]
-        #         if y - 0.001 < self.y < y + 0.001:
-        #             self.src = yashar["src"]

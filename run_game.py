@@ -32,6 +32,7 @@ class Gui:
         WIDTH, HEIGHT = 1080, 720
         pygame.init()
         screen = display.set_mode((WIDTH, HEIGHT), depth=32, flags=RESIZABLE)
+        display.set_caption('Ex4 Pokemon Ariel by Dolev , Daniel and Yakov')
         icon_game = pygame.image.load("icon.png")
         pygame.display.set_icon(icon_game)
         clock = pygame.time.Clock()
@@ -68,11 +69,12 @@ class Gui:
         The GUI and the "algo" are mixed - refactoring using MVC design pattern is required.
         """
         # counter = 0
-        center_button = Button((137, 122, 204), 2, 2, 70, 20, 'pause')
+        center_button = Button((137, 122, 204), 2, 2, 70, 20, 'stop')
 
         base_font_timer = pygame.font.Font(None, 20)
         base_font_move_counter = pygame.font.Font(None, 20)
         base_font_overall_points = pygame.font.Font(None, 20)
+        base_font_pokemon_value = pygame.font.Font(None, 20)
 
         settings.client.start()
         length_game_time = float(settings.client.time_to_end()) * 0.001
@@ -174,9 +176,13 @@ class Gui:
                     y = my_scale(p.y, y=True)
                     if p.type > 0:
                         screen.blit(pika_png, (int(x) - 15, int(y) - 15))
+                        value_pokemon_to_print = base_font_pokemon_value.render(str(p.value), True, (0,0,128))
+                        screen.blit(value_pokemon_to_print,(int(x) - 10, int(y) + 20 ))
                         # pygame.draw.circle(screen, Color(252, 3, 23), (int(x), int(y)), 10)
                     else:
                         screen.blit(eve_png, (int(x) - 15, int(y) - 15))
+                        value_pokemon_to_print = base_font_pokemon_value.render(str(p.value), True, (0, 0, 128))
+                        screen.blit(value_pokemon_to_print, (int(x) - 10, int(y) + 20))
                         # pygame.draw.circle(screen, Color(0, 255, 255), (int(x), int(y)), 10)
 
                 center_button.draw(screen)
