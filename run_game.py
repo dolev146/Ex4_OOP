@@ -32,6 +32,8 @@ class Gui:
         WIDTH, HEIGHT = 1080, 720
         pygame.init()
         screen = display.set_mode((WIDTH, HEIGHT), depth=32, flags=RESIZABLE)
+        icon_game = pygame.image.load("icon.png")
+        pygame.display.set_icon(icon_game)
         clock = pygame.time.Clock()
         pygame.font.init()
 
