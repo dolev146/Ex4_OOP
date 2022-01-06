@@ -34,9 +34,11 @@ def where_to_put_agents():
             win_node_id = random.choice(l3)
             settings.client.add_agent("{\"id\":" + str(win_node_id) + "}")
     # if pokemons are more then we just use all the agents to be close to pokemons
+    # https://stackoverflow.com/questions/2688079/how-to-iterate-over-the-first-n-elements-of-a-list
     elif settings.agents_amount < settings.pokemons_amount:
-        for i in range(settings.pokemons_amount):
-            win_node_id = settings.pokemons[i].win_node_src.id
+        settings.pokemons.sort(key=lambda pok: pok.value, reverse=True)
+        for pokemon in settings.pokemons[:settings.agents_amount]:
+            win_node_id = pokemon.win_node_src.id
             settings.client.add_agent("{\"id\":" + str(win_node_id) + "}")
 
 
@@ -85,22 +87,6 @@ def init_connection():
         p2 = [settings.graph.Nodes.get(edge.src).x, settings.graph.Nodes.get(edge.src).y]
         distance = math.dist(p1, p2)
         settings.distance_edges.append({"value": distance, "src": edge.src, "dest": edge.dest})
-        if edge.dest > edge.src:
-            # calculating the slop
-            m = (settings.graph.Nodes.get(edge.dest).y - settings.graph.Nodes.get(edge.src).y) / (
-                    settings.graph.Nodes.get(edge.dest).x - settings.graph.Nodes.get(edge.src).x)
-            #  y = a*x + c -> c = y / a*x
-            c = settings.graph.Nodes.get(edge.dest).y / m * settings.graph.Nodes.get(edge.dest).x
-            yashar = {"m": m, "c": c, "src": edge.src, "dest": edge.dest}
-            settings.edges_plus.append(yashar)
-        else:
-            # calculating the slop
-            m = (settings.graph.Nodes.get(edge.dest).y - settings.graph.Nodes.get(edge.src).y) / (
-                    settings.graph.Nodes.get(edge.dest).x - settings.graph.Nodes.get(edge.src).x)
-            #  y = a*x + c -> c = y / a*x
-            c = settings.graph.Nodes.get(edge.dest).y / m * settings.graph.Nodes.get(edge.dest).x
-            yashar = {"m": m, "c": c, "src": edge.src, "dest": edge.dest}
-            settings.edges_minus.append(yashar)
 
     json_pokemons = settings.client.get_pokemons()
     dict_pokemons = json.loads(json_pokemons)
@@ -113,9 +99,7 @@ def init_connection():
     # the reason this func in before everything is that in order to build the agents list
     #  we need to set the agents at first to access their information
     where_to_put_agents()
-    # settings.client.add_agent("{\"id\":" + str(0) + "}")
-    # settings.client.add_agent("{\"id\":" + str(0) + "}")
-    # settings.client.add_agent("{\"id\":" + str(0) + "}")
+
     json_agents = settings.client.get_agents()
     dict_agents = json.loads(json_agents)
     for agent in dict_agents['Agents']:
@@ -123,16 +107,7 @@ def init_connection():
         settings.agents.append(
             Agent(id=agent["id"], value=agent["value"], src=agent["src"], dest=agent["dest"], speed=agent["speed"],
                   pos=agent["pos"]))
-        settings.agentDestNodeList.update({int(agent["id"]):-1})
-
-    # settings.agents = settings.client.get_agents()
-    # settings.pokemons = settings.client.get_pokemons()
-    # settings.graph = settings.client.get_graph()
-    # print(settings.client.get_agents())
-    # print(settings.client.get_graph())
-    # print(settings.client.get_pokemons())
-    # print(settings.client.get_agents())
-    # where_to_put_agents()
+        settings.agentDestNodeList.update({int(agent["id"]): -1})
 
 
 class GameControl:
@@ -142,4 +117,3 @@ class GameControl:
         # update.start_update_process()
         Gui()
         # start the game only when we finish with gui and establishing connection
-
