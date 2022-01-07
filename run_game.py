@@ -75,6 +75,7 @@ class Gui:
         base_font_move_counter = pygame.font.Font(None, 20)
         base_font_overall_points = pygame.font.Font(None, 20)
         base_font_pokemon_value = pygame.font.Font(None, 20)
+        base_font_pokemon_type = pygame.font.Font(None, 20)
 
         settings.client.start()
         length_game_time = float(settings.client.time_to_end()) * 0.001
@@ -132,6 +133,12 @@ class Gui:
 
                 # refresh surface
                 screen.fill(Color(168, 228, 160))
+                screen.blit(pika_png, (150, 2))
+                screen.blit(eve_png, (150, 32))
+                print_type_plus = base_font_pokemon_type.render(str("type=1"), True, (0, 0, 128))
+                print_type_minus = base_font_pokemon_type.render(str("type=-1"), True, (0, 0, 128))
+                screen.blit(print_type_plus,(190,15))
+                screen.blit(print_type_minus,(190,42))
 
                 # draw nodes
                 for n in settings.graph.Nodes.values():
@@ -176,8 +183,8 @@ class Gui:
                     y = my_scale(p.y, y=True)
                     if p.type > 0:
                         screen.blit(pika_png, (int(x) - 15, int(y) - 15))
-                        value_pokemon_to_print = base_font_pokemon_value.render(str(p.value), True, (0,0,128))
-                        screen.blit(value_pokemon_to_print,(int(x) - 10, int(y) + 20 ))
+                        value_pokemon_to_print = base_font_pokemon_value.render(str(p.value), True, (0, 0, 128))
+                        screen.blit(value_pokemon_to_print, (int(x) - 10, int(y) + 20))
                         # pygame.draw.circle(screen, Color(252, 3, 23), (int(x), int(y)), 10)
                     else:
                         screen.blit(eve_png, (int(x) - 15, int(y) - 15))
