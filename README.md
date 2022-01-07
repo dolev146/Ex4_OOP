@@ -57,6 +57,8 @@ mac
 First we had to choose a language, we chose Python because it was faster to develop in Python than in Jaba a lesson we learned from previous assignments, however we had to do more sessions to understand what to do and what variables are going through, i.e. to strengthen communication. At the beginning of the task we had to think about what format to work in, and how in general the information flows in the software, how to access it, what names we call variables and cause uncertainty to become absolute certainty of a form of work. After we created a working skeleton of the software, we divided the task between us each what he does best. Daniel did the part of the algorithm, Jacob worked on the position of the Pokemon and a function that prevents the number of calls to move to go through the 10 times per second and on the display, Dolev worked on the combination of information between the two things so that they do not collide. And finally we managed to get to something that works well in a relatively short time. also python got us better resolts in the time comparison
 
 ## design patterns used
+![image](https://user-images.githubusercontent.com/62290677/148535763-eb676c90-1722-4d5b-8a54-74770877f29e.png)
+
 
 - MVC - we seperated the calculation of the data from the importing and exporting the data from the server functions so that a function that run an algoritm only take care of calculation , and a function that deals with server only take care interacting with the server. inspired from React by using a single source of truth.
 - singleton - we used a singelton + state design patterns so that all the code is referencing one specific objects that are located in the file settings.py and in every use of them you need to import them to use them.
