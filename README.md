@@ -41,6 +41,11 @@ the number in the end of the line is the case number
 
 ***and on a diffrent terminal***
 
+
+```bash
+  cd Ex4_OOP
+```
+
 ```bash
 windows
     python Ex4.py
