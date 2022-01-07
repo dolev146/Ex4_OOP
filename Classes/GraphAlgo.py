@@ -15,6 +15,9 @@ class GraphAlgo(GraphAlgoInterface):
     def __init__(self, graph=None):
         self.graph = graph
 
+    def init(self, graph):
+        self.graph = graph
+
     def load_from_json(self, file_name: str) -> bool:
         self.graph = SaveLoad.load(file_name)
         a = 5
@@ -82,17 +85,17 @@ class GraphAlgo(GraphAlgoInterface):
                 minY = 20
                 maxY = 30
 
-            if counter == (self.get_graph().v_size()-1) :
-                   minX += -5
-                   maxX += 5
-                   minY += -5
-                   maxY += 5
+            if counter == (self.get_graph().v_size() - 1):
+                minX += -5
+                maxX += 5
+                minY += -5
+                maxY += 5
 
         for node in self.get_graph().get_all_v().values():
-                if node.x == None and node.y == None and node.z == None:
-                    node.x = random.uniform(minX, maxX)
-                    node.y = random.uniform(minY, maxY)
-                    node.z = 0.0
+            if node.x == None and node.y == None and node.z == None:
+                node.x = random.uniform(minX, maxX)
+                node.y = random.uniform(minY, maxY)
+                node.z = 0.0
 
     def get_graph(self) -> GraphInterface:
         return self.graph

@@ -10,13 +10,6 @@ from pygame import gfxdraw
 import pygame
 from pygame import *
 
-import time
-start = time.time()
-
-
-
-
-
 # init pygame
 WIDTH, HEIGHT = 1080, 720
 
@@ -50,7 +43,7 @@ for n in graph.Nodes:
     x, y, _ = n.pos.split(',')
     n.pos = SimpleNamespace(x=float(x), y=float(y))
 
- # get data_ex3 proportions
+ # get data proportions
 min_x = min(list(graph.Nodes), key=lambda n: n.pos.x).pos.x
 min_y = min(list(graph.Nodes), key=lambda n: n.pos.y).pos.y
 max_x = max(list(graph.Nodes), key=lambda n: n.pos.x).pos.x
@@ -59,7 +52,7 @@ max_y = max(list(graph.Nodes), key=lambda n: n.pos.y).pos.y
 
 def scale(data, min_screen, max_screen, min_data, max_data):
     """
-    get the scaled data_ex3 with proportions min_data, max_data
+    get the scaled data with proportions min_data, max_data
     relative to min and max screen dimentions
     """
     return ((data - min_data) / (max_data-min_data)) * (max_screen - min_screen) + min_screen
@@ -88,7 +81,7 @@ client.start()
 The code below should be improved significantly:
 The GUI and the "algo" are mixed - refactoring using MVC design pattern is required.
 """
-counter = 0
+
 while client.is_running() == 'true':
     pokemons = json.loads(client.get_pokemons(),
                           object_hook=lambda d: SimpleNamespace(**d)).Pokemons
@@ -157,7 +150,7 @@ while client.is_running() == 'true':
     display.update()
 
     # refresh rate
-    clock.tick(10)
+    clock.tick(60)
 
     # choose next edge
     for agent in agents:
@@ -168,10 +161,5 @@ while client.is_running() == 'true':
             ttl = client.time_to_end()
             print(ttl, client.get_info())
 
-    # if ((time.time() - start) == 10.0):
-    print("Process time: " + str(time.time() - start))
-
-    print(counter)
-    counter = counter + 1
     client.move()
 # game over:
