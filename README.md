@@ -1,4 +1,99 @@
 
+# Ex4 OOP Ariel Univercity
+
+![image](https://user-images.githubusercontent.com/62290677/148532227-1c262d00-fbc2-41b2-b575-61bda8842b00.png)
+
+after implementing graphs algorithm's: 
+
+- TSP()
+- ShortestPath()
+- Center()
+
+now we made a game out of it :)
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/dolev146/Ex4_OOP.git
+```
+
+Go to the project directory
+
+```bash
+  cd Ex4_OOP
+```
+
+Install dependencies
+
+```bash
+  pip install -r requirements.txt
+```
+
+Start the server make sure you have java installed
+
+```bash
+     java -jar Ex4_Server_v0.0.jar 0
+```
+
+***and on a diffrent terminal***
+
+```bash
+windows
+    python Ex4.py
+
+mac
+    python3 Ex4.py
+```
+
+## Gui Demo
+
+
+
+## Thought planning and execution 
+
+First we had to choose a language, we chose Python because it was faster to develop in Python than in Jaba a lesson we learned from previous assignments, however we had to do more sessions to understand what to do and what variables are going through, i.e. to strengthen communication. At the beginning of the task we had to think about what format to work in, and how in general the information flows in the software, how to access it, what names we call variables and cause uncertainty to become absolute certainty of a form of work. After we created a working skeleton of the software, we divided the task between us each what he does best. Daniel did the part of the algorithm, Jacob worked on the position of the Pokemon and a function that prevents the number of calls to move to go through the 10 times per second and on the display, Dolev worked on the combination of information between the two things so that they do not collide. And finally we managed to get to something that works well in a relatively short time. also python got us better resolts in the time comparison
+
+## design patterns used
+
+- MVC - we seperated the calculation of the data from the importing and exporting the data from the server functions so that a function that run an algoritm only take care of calculation , and a function that deals with server only take care interacting with the server. inspired from React by using a single source of truth.
+- singleton - we used a singelton + state design patterns so that all the code is referencing one specific objects that are located in the file settings.py and in every use of them you need to import them to use them.
+
+
+## Unit Tests
+
+inside file Ex4Test.py
+
+![image](https://user-images.githubusercontent.com/62290677/148533376-0afed417-37c6-442b-b814-9156dc2e7127.png)
+
+![image](https://user-images.githubusercontent.com/62290677/148533490-f5446fa0-f24d-4890-9c41-dce8115abbba.png)
+### Algorithms functions 
+
+* make_decisions() - This function detects when the agent has reached the position he needs,
+     calculates the next step and adds it to settings.move_list
+     settings.move_list.append({"agent_id": agent.id , "next_node_id": next_node)
+     *** note it will only add a move list when it is not exist
+     we chose the aproach of using greedy algorithm, that sends the agents to the closest pokemon by using the tsp function we made in ex3 to compare the pokemons and choose the agents paths
+ 
+* pokemon.set_edge() - tell me where is the pokimon located on which edge so that we can tell what is the node we need to go in order the catch the pokemon.
+
+
+
+
+
+
+
+
+## Authors
+
+- [@ Dolev Dublon](https://github.com/dolev146)
+- [@ Daniel Zaken](https://github.com/daniel555666)
+- [@ Yakov Khodorkovski](https://github.com/yakov103)
+
+
+
 # Ex3 OOP Ariel Univercity
 
 ![image](https://user-images.githubusercontent.com/62290677/147416924-927bcdcb-8cf6-4b95-82a0-ef475f122183.png)
