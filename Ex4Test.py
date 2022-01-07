@@ -24,8 +24,8 @@ class Ex4Test(TestCase):
         pokemon2 = Pokemon(10, -1, "3,1,0")
         pokemon.set_edge()
         pokemon2.set_edge()
-        self.assertEqual(pokemon.win_node_src.id, 5)
-        self.assertEqual(pokemon2.win_node_src.id, 6)
+        self.assertEqual(pokemon.win_node_src.id, 1)
+        self.assertEqual(pokemon2.win_node_src.id, 2)
         settings.graph = DiGraph()
         settings.distance_edges = []
 
@@ -61,3 +61,6 @@ class Ex4Test(TestCase):
         self.assertEqual(control_agent(agent)[0],6)
         self.assertEqual(control_agent(agent)[1],pokemon)
         self.assertEqual(pokemon2.win_node_src.id, 6)
+        settings.graph = DiGraph()
+        settings.distance_edges = []
+
