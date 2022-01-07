@@ -9,16 +9,17 @@ def LengthAndPathFromPokemonToAgent(src: int, dest: int) -> (float, list):
     return settings.algo.shortest_path(src, dest)
 
 
-def control_agent(agent: Agent) -> int:
+def control_agent(agent: Agent):
     # get Agent and return id node of the best pokemon next edge(idAgent,lengthOfThePath,listPath)
 
     pokemonSave = None
     bestTuple = (sys.maxsize, [])
     tempTuple = (sys.maxsize, [])
     for pokemon in settings.pokemons:
+
         if pokemon.win_node_src.id not in settings.agentDestNodeList.values():  ## if no agent with this pokemon dest
             tempTuple = LengthAndPathFromPokemonToAgent(agent.src, pokemon.win_node_src.id)
-            if bestTuple[0] > tempTuple[0]:
+            if bestTuple[0] > tempTuple[0] :
                 bestTuple = tempTuple
                 pokemonSave = pokemon
 

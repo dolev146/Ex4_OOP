@@ -37,6 +37,7 @@ def where_to_put_agents():
     # https://stackoverflow.com/questions/2688079/how-to-iterate-over-the-first-n-elements-of-a-list
     elif settings.agents_amount < settings.pokemons_amount:
         settings.pokemons.sort(key=lambda pok: pok.value, reverse=True)
+        tempForDebug=settings.pokemons
         for pokemon in settings.pokemons[:settings.agents_amount]:
             win_node_id = pokemon.win_node_src.id
             settings.client.add_agent("{\"id\":" + str(win_node_id) + "}")
