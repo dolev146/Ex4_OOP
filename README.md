@@ -1,5 +1,5 @@
 
-# Ex4 OOP Ariel Univercity
+# Ex4 OOP Ariel Univercity ✨
 
 ![image](https://user-images.githubusercontent.com/62290677/148532227-1c262d00-fbc2-41b2-b575-61bda8842b00.png)
 
@@ -9,7 +9,7 @@ after implementing graphs algorithm's:
 - ShortestPath()
 - Center()
 
-now we made a game out of it :)
+now we made a game out of it 🕹
 
 
 ## Run Locally
