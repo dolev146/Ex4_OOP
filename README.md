@@ -32,7 +32,8 @@ Install dependencies
   pip install -r requirements.txt
 ```
 
-Start the server make sure you have java installed
+Start the server make sure you have java installed case 0 - 15 ,
+the number in the end of the line is the case number
 
 ```bash
      java -jar Ex4_Server_v0.0.jar 0
@@ -49,7 +50,9 @@ mac
 ```
 
 ## Gui Demo
+press the image to go to the video
 
+[![IMAGE ALT TEXT HERE](https://user-images.githubusercontent.com/62290677/148537804-9348449d-f5e9-40f8-b6c9-8c5aa363b034.png)](https://www.youtube.com/watch?v=b8LmH218lmQ)
 
 
 ## Thought planning and execution 
