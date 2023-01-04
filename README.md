@@ -1,5 +1,5 @@
 
-# Ex4 OOP Ariel Univercity ✨
+# Ex4 OOP Ariel University ✨
 
 ![image](https://user-images.githubusercontent.com/62290677/148532227-1c262d00-fbc2-41b2-b575-61bda8842b00.png)
 
